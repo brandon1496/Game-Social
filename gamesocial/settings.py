@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'posts',
     'groups',
-    #'django-braces',
+    'braces',
 ]
 
 MIDDLEWARE = [
@@ -124,5 +124,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
-LOGIN_REDIRECT_URL = 'test'
-LOGOUT_REDIRECT_URL = 'peace'
+LOGIN_REDIRECT_URL = 'groups:all'
+LOGOUT_REDIRECT_URL = 'home'

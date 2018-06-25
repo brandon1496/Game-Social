@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import (LoginRequiredMixin, PermissionRequiredMixin)
 from django.contrib import messages
-
+from groups import models
 from django.urls import reverse
 from django.views import generic
 from groups.models import Group, GroupMember
@@ -9,8 +9,8 @@ from groups.models import Group, GroupMember
 # Create your views here.
 # Class to create a group
 class CreateGroup(LoginRequiredMixin, generic.CreateView):
-    fields = ('name', 'message')
-    model = Group
+ model = Group
+ fields = ('name', 'info')
 
 class SingleGroup(generic.DetailView):
     model = Group
@@ -28,10 +28,13 @@ class JoinGroup(LoginRequiredMixin, generic.RedirectView):
         # Will attempt to add the user to the group by creating a new GroupMember
         try:
             GroupMember.objects.create(user=self.request.user, group=group)
+            
         except:
-            message.warning(self.request, ("Your already a member"))
+            messages.warning(self.request, ("Your already a member"))
+            
         else:
             messages.success(self.request, ('Congrats your now a Member'))
+        return super().get(request, *args, **kwargs)
 
 class LeaveGroup(LoginRequiredMixin, generic.RedirectView):
      # Function apart of the RedirectView, takes user back to the SinglesGroup View

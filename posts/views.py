@@ -38,16 +38,10 @@ class PostDetail(SelectRelatedMixin, generic.DetailView):
     model = models.Post
     select_related = ('user', 'group')
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        # passes the username of the selected post into the DetailView
-        return queryset.filter(user_username__isexact=self.kwargs.get('username'))
-
 # Class to create posts
 class CreatePost(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
-    fields = ('message', 'group')
     model = models.Post
-    
+    fields = ('message', 'group')
     
     #overriding the form_valid function making sure that the new post is connected to the user that made it
     def form_valid(self, form):
@@ -60,13 +54,10 @@ class CreatePost(LoginRequiredMixin, SelectRelatedMixin, generic.CreateView):
 class DeletePost(LoginRequiredMixin, SelectRelatedMixin, generic.DeleteView):
     model = models.Post
     select_related = ('user', 'group')
+    template_name = "posts/post_confirm_delete.html"
     # after post is deleted it will send the user to posts:all
     success_url = reverse_lazy('posts:all')
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(user_id= self.request.user.id)
+    
     # Will display to the  user that the Post was Deleted
-    def delete(self, *args, **kwargs):
-        messages.success(self.request, 'Post Deleted')
-        return super().delete(*args, **kwargs)
+    
