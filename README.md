@@ -13,3 +13,11 @@ To run the app use command
 ```
 python manage.py runserver
 ```
+## Restful Urls
+* List of Users:
+    * GET http://127.0.0.1:8000/accounts/users/
+
+* A Specific User 
+    * GET http://127.0.0.1:8000/accounts/users/id/
+* List of Groups:
+    * GET http://127.0.0.1:8000/groups/list
