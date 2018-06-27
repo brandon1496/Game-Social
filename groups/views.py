@@ -5,6 +5,8 @@ from groups import models
 from django.urls import reverse
 from django.views import generic
 from groups.models import Group, GroupMember
+from rest_framework import viewsets
+from groups.serializers import GroupSerializer
 
 # Create your views here.
 # Class to create a group
@@ -50,4 +52,10 @@ class LeaveGroup(LoginRequiredMixin, generic.RedirectView):
             membership.delete()
             messages.success(self.request, 'You have left the group!!!!')
         return super().get(request,*args,**kwargs)
-    
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer

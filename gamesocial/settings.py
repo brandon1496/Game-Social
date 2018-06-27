@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'posts',
     'groups',
     'braces',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
